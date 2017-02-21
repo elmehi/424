@@ -40,6 +40,8 @@ def get_dirs(mypath):
 
 # Reading a bag of words file back into python. The number and order
 # of sentences should be the same as in the *samples_class* file.
+
+
 def read_bagofwords_dat(myfile):
   bagofwords = numpy.genfromtxt('myfile.csv',delimiter=',')
   return bagofwords
