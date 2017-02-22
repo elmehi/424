@@ -14,9 +14,8 @@ target = np.loadtxt("data/out_classes_5.txt")
 # fvs_tfidf = transformer.fit_transform(fvs)
 # print(fvs_tfidf.shape)
 
-print(type(fvs_tfidf))
 clfmnb = MultinomialNB() #.fit(fvs, target)
-scores = cross_val_score(clf, fvs_tfidf, target, cv=5)
+scores = cross_val_score(clfmnb, fvs, target, cv=folds)
 print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 clfbnb = BernoulliNB(binarize=0.5) #.fit(fvs, target)
