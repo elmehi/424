@@ -2,9 +2,11 @@ from sklearn.naive_bayes import MultinomialNB
 # from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.model_selection import cross_val_score
 from sklearn.naive_bayes import BernoulliNB
+from sklearn.linear_model import LogisticRegression
+from sklearn import svm
 import numpy as np
 
-folds =3
+folds = 5
 
 fvs = np.loadtxt("data/out_bag_of_words_5.csv", delimiter=',')
 target = np.loadtxt("data/out_classes_5.txt")
@@ -14,10 +16,10 @@ target = np.loadtxt("data/out_classes_5.txt")
 # fvs_tfidf = transformer.fit_transform(fvs)
 # print(fvs_tfidf.shape)
 
-clfmnb = MultinomialNB() #.fit(fvs, target)
-scores = cross_val_score(clfmnb, fvs, target, cv=folds)
-print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
-clfbnb = BernoulliNB(binarize=0.5) #.fit(fvs, target)
-scores = cross_val_score(clfbnb, fvs, target, cv=folds)
-print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+clfs = [MultinomialNB(), BernoulliNB(binarize=0.5), LogisticRegression(), svm.LinearSVC()]
+for clf in clfs:
+    print(clf)
+    scores = cross_val_score(clf, fvs, target, cv=folds)
+    print("Accuracy: %0.3f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+    print
