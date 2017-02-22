@@ -5,13 +5,13 @@ import numpy as np
 
 fvs = np.loadtxt("data/out_bag_of_words_5.csv", delimiter=',')
 target = np.loadtxt("data/out_classes_5.txt")
-print(fvs[1:10])
+print(type(fvs))
 
 ## tfidf does nothing
 transformer = TfidfTransformer()
 fvs_tfidf = transformer.fit_transform(fvs)
 # print(fvs_tfidf.shape)
-print(fvs_tfidf[1:10])
+print(type(fvs_tfidf))
 clf = MultinomialNB() #.fit(fvs, target)
 
 
