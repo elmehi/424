@@ -142,7 +142,7 @@ def main(argv):
 
   # Tokenize training data (if training vocab doesn't already exist):
   if (not vocabf):
-    word_count_threshold = 5
+    word_count_threshold = 10
     (docs, classes, samples, words) = tokenize_corpus(traintxt, train=True)
     vocab = wordcount_filter(words, num=word_count_threshold)
     # Write new vocab file
