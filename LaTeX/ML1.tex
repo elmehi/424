@@ -88,7 +88,7 @@
 	
 	The na\"ive Bayes algorithm rests on the assumption of class-conditional independence. The graphical model corresponding to this assumption with $n$ samples and $K$ parameters can be seen in figure \ref{fig:dag}. This figure is taken from a slide in Barbara Engelhardt's lecture on classification \cite{engelhardt17}.
 	
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
 		\includegraphics[scale=1]{DAG}
 		\caption{The graphical model corresponding to the assumptions of Na\"ive Bayes. The top circle represents the proportion of positive sentiments. $K$ is the number of classes, each with its own parameters, while $n$ is the number of samples. In our case, $\bf x$ is a vector of $m$ features.}
@@ -146,7 +146,7 @@
 	F_1' = \frac{\mbox{2TN}}{\mbox{2TN + FN + FP}}
 	\end{equation}
 	
-	\begin{table}
+	\begin{table}[h]
 		\centering
 		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|c|@{}}
 			\hline
@@ -162,7 +162,15 @@
 		\caption{{\bf Results from however many classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. Lastly, we state runtimes for each classifier.}
 		\label{tab:results}
 	\end{table}
-	
+
+	The reported values are those of the classifier with the hyperparameters set to maximize accuracy on the training data set. That means the reported value of recall for MNB, for example, is not the highest achievable precision. In fact, recall $=1$ is achievable by marking all test cases as positive. A receiver operating characteristic (ROC) curve captures the tradeoff between true positives (recall) and true negatives. It varies the threshold for predicting a positive sentiment and then plots both TPR and TNR. An ROC for a perfect classifier would be a step function. For an example ROC curve see figure~\ref{fig:roc}.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=.5]{ROC}
+		\caption{ROC curves for multinomial na\'ive Bayes, multinomial logistic regression, Bernoulli na\"ive Bayes, and logistic regression. BNB can be seen to be worse across all thresholds.}
+		\label{fig:roc}
+	\end{figure}
+		
 	\section{Discussion and Conclusion}
 	
 	low threshold for df, especially 
