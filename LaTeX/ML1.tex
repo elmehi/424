@@ -147,18 +147,18 @@
 	
 	\begin{table}[h]
 		\centering
-		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|c|@{}}
+		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|@{}}
 			\hline
-			\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c}{Looking for Negatives} &\\
-			\cline{3-9}
-			Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ & Time (s)\\
+			\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c|}{Looking for Negatives} \\
+			\cline{3-8}
+			Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
 			\hline
 			\hline
-			MNB & BoW  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ & Time (s)\\
-			MNB & Select & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ & Time (s)\\
+			MNB & BoW  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			MNB & Select & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
 			\hline
 		\end{tabular}
-		\caption{{\bf Results from however many classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. Lastly, we state runtimes for each classifier.}
+		\caption{{\bf Results from 3 classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. Lastly, we state runtimes for each classifier.}
 		\label{tab:results}
 	\end{table}
 
