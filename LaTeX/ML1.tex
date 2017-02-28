@@ -131,6 +131,33 @@
 	
 	For all methods, hyperparameters were fit using 5-fold cross validation and the training data. With optimal hyperparameters, the models were then trained on the 2400 training data and tested on the 600 testing data. The results can be seen in table~\ref{tab:results}.
 	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|@{}}
+			\hline
+			\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c|}{Looking for Negatives} \\
+			\cline{3-8}
+			Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			\hline
+			\hline
+			MNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			MNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			MNB & Selected & 0.85 & 0.76 & 0.80& 0.78& 0.86 & 0.82 \\
+			BNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			BNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			BNB & Selected & 0.81 & 0.62 & 0.70& 0.69& 0.86 & 0.77 \\
+			MLR & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			MLR & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			MLR & Selected & 0.87 & 0.77 & 0.82& 0.79& 0.89 & 0.84 \\
+			SVM & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			SVM & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			SVM & Selected & 0.88 & 0.76 & 0.82& 0.79& 0.90 & 0.84 \\
+			\hline
+		\end{tabular}
+		\caption{{\bf Results from 4 classifiers on sentiment analysis data.} We list values for 4 classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. For each classifier we report results with BoW with thresholds with 1 or 5 words, and results with manually selescted features.}
+		\label{tab:results}
+	\end{table}
+	
 	\subsection{Evaluation Metrics}
 	
 	The most na\"ive method for evaluating classifiers would be to just calculate total correct/total data point. however, this is complicated by any asymmetric relationship between the two classes. The canonical example is in interpreting cancer screening results. A false positive test is problematic and could lead to painful and expensive treatment with no benefit. However, one could argue that a false negative leads to an even worse outcome. 
@@ -155,33 +182,6 @@
 	F_1' = \frac{\mbox{2TN}}{\mbox{2TN + FN + FP}}
 	\end{equation}
 	
-	\begin{table}[h]
-	\centering
-	\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|@{}}
-		\hline
-		\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c|}{Looking for Negatives} \\
-		\cline{3-8}
-		Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		\hline
-		\hline
-		MNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		MNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		MNB & Selected & 0.85 & 0.76 & 0.80& 0.78& 0.86 & 0.82 \\
-		BNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		BNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		BNB & Selected & 0.81 & 0.62 & 0.70& 0.69& 0.86 & 0.77 \\
-		MLR & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		MLR & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		MLR & Selected & 0.87 & 0.77 & 0.82& 0.79& 0.89 & 0.84 \\
-		SVM & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		SVM & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-		SVM & Selected & 0.88 & 0.76 & 0.82& 0.79& 0.90 & 0.84 \\
-		\hline
-	\end{tabular}
-	\caption{{\bf Results from 3 classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment.}
-	\label{tab:results}
-	\end{table}
-
 	The reported values are those of the classifier with the hyperparameters set to maximize accuracy on the training data set. That means the reported value of recall for MNB, for example, is not the highest achievable recal. In fact, recall $=1$ is achievable by marking all test cases as positive. A receiver operating characteristic (ROC) curve captures the tradeoff between true positives (recall) and true negatives. It varies the threshold for predicting a positive sentiment and then plots both TPR and TNR. An ROC for a perfect classifier would be a step function. For an example ROC curve see figure~\ref{fig:roc}.
 	\begin{figure}[h]
 		\centering
