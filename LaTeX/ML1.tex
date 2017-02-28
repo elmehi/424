@@ -61,7 +61,7 @@
 	
 	The two na\"ive Bayes methods both assume class-conditional independence between the features in the representation of the data. The predicted label is then just that which maximizes the likelihood, using Bayes' rule. For a more in-depth description of MNB see subsection \ref{subs:mnb}
 	
-	Logistic regression is a linear classification method that uses the loss function\footnote{}
+	Logistic regression is a linear classification method that uses the loss function\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.linear\_model.LogisticRegression.html}
 	\begin{align}
 	\min_{w,c}\frac{1}{2}w^Tw + C\sum_{i = 1}^{m}\log\left(\exp\left(-z_i\left(x_i^Tw+c\right)\right)+1\right),
 	\end{align}
@@ -77,13 +77,11 @@
 	\end{align}
 	where $x$ is the observation and $z$ is the label. This performs well on small training sets because the assumptions about the model provide a scaffold to build the model on. However, as the training set grows, those assumptions start to hold the classifier back.
 	
-	Discriminative classifiers, on the other hand, make opposite assumptions. They assume nothing about the distribution of the features given the label, but rather find hypervolumes in the feature space which correspond to a given class. The independence assumtion can be written as 
+	Discriminative classifiers, on the other hand, make opposite assumptions. They find hypervolumes in the feature space which correspond to a given class. The independence assumtion can be written as 
 	\begin{align}
 	p(x,z) = p(z|x)p(x).
 	\end{align}
-	Unlike the generative classifiers, these perform poorly with little data, but improve more with large training sets. 
-	
-	A disadvantage is that while generative models can trivially handle missing data (one feature not observed for a given sample), discriminative models cannot. This is because a sample missing one feature no longer exists in the full feature space.
+	Unlike the generative classifiers, these perform poorly with little data, but improve more with large training sets. A disadvantage is that while generative models can trivially handle missing data (one feature not observed for a given sample), discriminative models cannot. This is because a sample missing one feature no longer exists in the full feature space.
 	
 	\subsection{Feature Extraction and Selection}
 	
@@ -198,7 +196,7 @@
 	
 	A useful method of feature selection was the categorical proportional difference score, defined as the absolute difference in occurrences of a word in positive vs. negative reviews, divided by the document frequency. Setting a high threshold for this score
 	
-	A straightforward interesting extension to this project would be using non-linear feature vectors 
+	A straightforward interesting extension to this project would be using non-linear feature vectors.
 	
 	\subsubsection*{Acknowledgments}
 	
