@@ -55,7 +55,7 @@ plt.plot(fpr[cl], tpr[cl], color='darkorange',
 
 cl = 'lr'
 plt.plot(fpr[cl], tpr[cl], color='blue',
-         lw=lw, label='LR (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='MLR (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 
@@ -67,7 +67,7 @@ plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 cl = 'lr2'
 plt.plot(fpr[cl], tpr[cl], color='black',
-         lw=lw, label='LR2 (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='LR (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 
