@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.metrics import roc_curve, auc
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.naive_bayes import BernoulliNB
 
 fvs_train = np.loadtxt("data/BOW.csv", delimiter=',')
 target_train = np.loadtxt("data/out_classes_1.txt")
@@ -43,8 +44,6 @@ for i in range(2):
 # Compute micro-average ROC curve and ROC area
 fpr["micro"], tpr["micro"], _ = roc_curve(targets2d.ravel(), p_score.ravel())
 roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
-
-
 
 plt.figure()
 lw = 2
