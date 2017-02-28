@@ -28,12 +28,12 @@
 	\maketitle
 	
 	\begin{abstract}
-		With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment is positive or negative.
+	This analysis uses various machine learning classification methods to determine whether sentences and sentence fragments are taken from positive or negative online reviews. The dataset consists of 2400 training points and 600 test points. We train on a bag-of-words representation of the text with and without feature selection. We find that
 	\end{abstract}
 	
 	\section{Introduction}
 	
-	With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment is positive or negative.
+	With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment regarding that topic is positive or negative.
 	
 	In this paper, we evaluate {\bf some methods} in their ability to classify the sentiments of online reviews as either positive or negative. We evaluate from the perspective of looking for negative reviews or looking for positive reviews. We evaluate the methods using a simple bag-of-words representation with and without feature selection. 
 	
@@ -48,12 +48,15 @@
 	
 	\section{Methods}
 	
-	We used the following classification methods
+	In our work, we used the following classification methods
 	
 	\begin{tabular}{rl}
-		a) & Multinomial Na\"ive Bayes\\
+		a) & Multinomial Na\"ive Bayes (MNB)\\
+		b) & Multinomial Logistic Regression (MLR)\\
+		c) & Bernoulli No\"ive Bayes (BNB) \\
+		d) & OVR Logistic Regression (LR)
 	\end{tabular}
-	
+
 	All methods we used were implemented using the SciKit Learn Python libraries \cite{scikit-learn}. 
 	
 	\subsection{Generative vs. Discriminative}
@@ -144,18 +147,18 @@
 	
 	\begin{table}[h]
 		\centering
-		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|c|@{}}
+		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|@{}}
 			\hline
-			\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c}{Looking for Negatives} &\\
-			\cline{3-9}
-			Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ & Time (s)\\
+			\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c|}{Looking for Negatives} \\
+			\cline{3-8}
+			Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
 			\hline
 			\hline
-			MNB & BoW  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ & Time (s)\\
-			MNB & Select & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ & Time (s)\\
+			MNB & BoW  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+			MNB & Select & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
 			\hline
 		\end{tabular}
-		\caption{{\bf Results from however many classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. Lastly, we state runtimes for each classifier.}
+		\caption{{\bf Results from 3 classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. Lastly, we state runtimes for each classifier.}
 		\label{tab:results}
 	\end{table}
 
@@ -171,7 +174,7 @@
 	
 	When using feature selection, the best method was to set a low threshold for document frequency, i.e. how many times a word must appear in the whole document before it is included in the dictionary. This makes sense because we were using term frequency-inverse document frequency (tf-idf), which weights words based on their document frequency. 
 	
-	A useful method of feature selection was the {\bf something} score, defined as the absolute difference in occurrences of a word in positive vs. negative reviews, divided by the document frequency. 
+	A useful method of feature selection was the categorical proportional difference score, defined as the absolute difference in occurrences of a word in positive vs. negative reviews, divided by the document frequency. 
 	
 	high threshold for 
 	
