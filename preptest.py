@@ -20,6 +20,9 @@ def read_bagofwords_dat(myfile):
   bagofwords = numpy.genfromtxt('myfile.csv',delimiter=',')
   return bagofwords
 
+def find_bigrams(input_list):
+    return [a + b for (a,b) in zip(input_list, input_list[1:])]
+
 def tokenize_corpus(train=True):
     porter = nltk.PorterStemmer() # also lancaster stemmer
     wnl = nltk.WordNetLemmatizer()
@@ -40,7 +43,7 @@ def tokenize_corpus(train=True):
         tokens = [w for w in tokens if w not in stopWords]
         tokens = [wnl.lemmatize(t) for t in tokens]
         tokens = [porter.stem(t) for t in tokens]  
-        tokens = Counter(tokens)
+        tokens = Counter(tokens + find_bigrams(tokens))
         docs.append(tokens)
         if int(theclass) == 1: positive_words += tokens 
         else: negative_words += tokens 

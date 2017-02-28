@@ -38,6 +38,9 @@ def getPD(positive_words, negative_words, n=5):
     pd = sorted(best.items(), key=lambda x: -abs(x[1]))
     return pd
 
+def find_bigrams(input_list):
+    return [a + b for (a,b) in zip(input_list, input_list[1:])]
+
 def tokenize_corpus(train=True):
     porter = nltk.PorterStemmer() # also lancaster stemmer
     wnl = nltk.WordNetLemmatizer()
@@ -58,7 +61,7 @@ def tokenize_corpus(train=True):
         tokens = [w for w in tokens if w not in stopWords]
         tokens = [wnl.lemmatize(t) for t in tokens]
         tokens = [porter.stem(t) for t in tokens]  
-        tokens = Counter(tokens)
+        tokens = Counter(tokens + find_bigrams(tokens))
         # if train == True:
         #     for t in tokens: 
         #         try: words[t] = words[t]+1
@@ -88,9 +91,9 @@ def find_wordcounts(docs, vocab):
    return(bagofwords)
 
 docs, classes, positive_words, negative_words = tokenize_corpus()
-pd = getPD(positive_words, negative_words, n = 3)
+pd = getPD(positive_words, negative_words, n = 1)
 print(pd)
-vocab = [x[0] for x in pd if abs(x[1]) > .35]
+vocab = [x[0] for x in pd if abs(x[1]) > .3]
 print(vocab)
 print(len(pd), len(vocab))
 with open("data/BOW.csv", "wb") as f:
