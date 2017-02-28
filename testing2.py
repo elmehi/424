@@ -52,23 +52,23 @@ print(fpr.keys())
 lw = 2
 cl = 'mn'
 plt.plot(fpr[cl], tpr[cl], color='darkorange',
-         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='MNB (area = %0.2f)' % roc_auc[cl])
 
 cl = 'lr'
 plt.plot(fpr[cl], tpr[cl], color='blue',
-         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='MLR (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 
 cl = 'bn'
 plt.plot(fpr[cl], tpr[cl], color='red',
-         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='BNB (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 
 cl = 'lr2'
 plt.plot(fpr[cl], tpr[cl], color='black',
-         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='LR (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 
@@ -79,4 +79,5 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic (ROC)')
 plt.legend(loc="lower right")
+plt.savefig("LaTeX/ROC.png")
 plt.show()
