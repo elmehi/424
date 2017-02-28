@@ -61,7 +61,7 @@
 	
 	The two na\"ive Bayes methods both assume class-conditional independence between the features in the representation of the data. The predicted label is then just that which maximizes the likelihood, using Bayes' rule. For a more in-depth description of MNB see subsection \ref{subs:mnb}
 	
-	Logistic regression is a linear classification method that uses the loss function
+	Logistic regression is a linear classification method that uses the loss function\footnote{}
 	\begin{align}
 	\min_{w,c}\frac{1}{2}w^Tw + C\sum_{i = 1}^{m}\log\left(\exp\left(-z_i\left(x_i^Tw+c\right)\right)+1\right),
 	\end{align}
@@ -87,7 +87,9 @@
 	
 	\subsection{Feature Extraction and Selection}
 	
-	Feature extraction was performed during the training portion of the project. One feature used was categorical proportional difference \cite{oKeefe2009}, defined in terms of positive document frequency ($pdf$) and negative document frequency ($ndf$)
+	Feature extraction was performed during the training portion of the project. We extracted features from a dictionary of k-grams that included both single words and bigrams. 
+	
+	One feature selection method used was categorical proportional difference \cite{oKeefe2009}, defined in terms of positive document frequency ($pdf$) and negative document frequency ($ndf$)
 	\begin{equation}
 	\mbox{CPD} = \frac{|pdf - ndf|}{pdf + ndf},
 	\end{equation}
@@ -196,9 +198,7 @@
 	
 	A useful method of feature selection was the categorical proportional difference score, defined as the absolute difference in occurrences of a word in positive vs. negative reviews, divided by the document frequency. Setting a high threshold for this score
 	
-	high threshold for 
-	
-	roc shows that logistic regression overfits less
+	A straightforward interesting extension to this project would be using non-linear feature vectors 
 	
 	\subsubsection*{Acknowledgments}
 	
