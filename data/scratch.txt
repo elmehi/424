@@ -1,0 +1,1 @@
+Finished find_wordcounts for: 2400 docs
