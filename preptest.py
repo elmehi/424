@@ -7,17 +7,6 @@ import numpy
 import sys, csv, codecs# getopt, codecs, tim/e, os, csv
 from collections import Counter
 
-# for l in sys.stdin:
-#     exclaim = l.count('!')
-#     l = re.split('[\s\.]', l[:-2].lstrip().rstrip())
-#     l = [x for x in l[1:] if x]
-#     meanwordsize = sum(len(w) for w in l)/len(l)
-#     count = len(l)
-#     uppers = sum([word.isupper() and len(word) > 2 for word in l])
-#     # numbers = sum([word.isnumeric() for word in l])
-#     for i in [uppers] :#, exclaim]:
-#         print i,
-#     print
 
 chars = ['{','}','#','%','&','\(','\)','\[','\]','<','>',',', '!', '.', ';', 
 '?', '*', '\\', '\/', '~', '_','|','=','+','^',':','\"','\'','@','-']
@@ -30,13 +19,6 @@ def stem(word):
 def read_bagofwords_dat(myfile):
   bagofwords = numpy.genfromtxt('myfile.csv',delimiter=',')
   return bagofwords
-
-def getPD(positive_words, negative_words, n=5):
-    total = positive_words + negative_words
-    positive_words.subtract(negative_words)
-    best = {k: float(positive_words[k])/total[k] for k in total.viewkeys() & positive_words if int(total[k]) > n}
-    pd = sorted(best.items(), key=lambda x: -abs(x[1]))
-    return pd
 
 def tokenize_corpus(train=True):
     porter = nltk.PorterStemmer() # also lancaster stemmer
@@ -59,11 +41,6 @@ def tokenize_corpus(train=True):
         tokens = [wnl.lemmatize(t) for t in tokens]
         tokens = [porter.stem(t) for t in tokens]  
         tokens = Counter(tokens)
-        # if train == True:
-        #     for t in tokens: 
-        #         try: words[t] = words[t]+1
-        #         except:
-        #             words[t] = 1
         docs.append(tokens)
         if int(theclass) == 1: positive_words += tokens 
         else: negative_words += tokens 
@@ -88,15 +65,16 @@ def find_wordcounts(docs, vocab):
    return(bagofwords)
 
 docs, classes, positive_words, negative_words = tokenize_corpus()
-pd = getPD(positive_words, negative_words, n = 3)
-print(pd)
-vocab = [x[0] for x in pd if abs(x[1]) > .35]
-print(vocab)
-print(len(pd), len(vocab))
-with open("data/BOW.csv", "wb") as f:
+
+vocabfile = open('vocab.txt', 'r')
+vocab = [line.rstrip('\n') for line in vocabfile]
+vocabfile.close()
+
+outfile= open('data/test_classes.txt', 'w')
+outfile.write("\n".join(classes))
+outfile.close()
+
+with open("data/bow_test.csv", "wb") as f:
     writer = csv.writer(f)
     writer.writerows(find_wordcounts(docs, vocab))
- 
-outfile = codecs.open('vocab.txt', 'w',"utf-8-sig")
-outfile.write("\n".join(vocab))
-outfile.close()
+outfile = open("test_classes.txt", 'w')
