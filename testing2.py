@@ -27,6 +27,7 @@ roc_auc = dict()
 for c in classes: 
     clf = c[1].fit(fvs_train, target_train)
     predicted = clf.predict(fvs_test)
+    print(c[0], ":")
     print("mean:", np.mean(predicted == target_test))
     print(metrics.classification_report(target_test, predicted))
     print(fvs_test.shape)
