@@ -28,7 +28,7 @@
 	\maketitle
 	
 	\begin{abstract}
-	This analysis uses various machine learning classification methods to determine whether sentences and sentence fragments are taken from positive or negative online reviews. The dataset consists of 2400 training points and 600 test points. We train on a bag-of-words representation of the text with and without feature selection. We find that logistic regression and support vector machines have the best performance. 
+	This analysis uses various machine learning classification methods to determine whether sentences and sentence fragments are taken from positive or negative online reviews. The dataset consists of 2400 training points and 600 test points. We train on a bag-of-words representation of the text with and without feature selection. We find that after feature selection, logistic regression, support vector machines, and naive bayes performed very similarly – with support vector machines performed best overall. 
 	\end{abstract}
 	
 	\section{Introduction}
@@ -85,7 +85,7 @@
 	
 	\subsection{Feature Extraction and Selection}
 	
-	Feature extraction was performed during the training portion of the project. We extracted features from a dictionary of stemmed k-grams that included both single words and bigrams. 
+	Feature extraction was performed during the training portion of the project. We extracted stemmed, lowercase words from each sample and populated feature vectors using a dictionary of k-grams that included both single words and bigrams. 
 	
 	One feature selection method used was categorical proportional difference \cite{oKeefe2009}, defined in terms of positive document frequency ($pdf$) and negative document frequency ($ndf$)
 	\begin{equation}
