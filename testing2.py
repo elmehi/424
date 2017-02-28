@@ -6,6 +6,7 @@ from sklearn.metrics import roc_curve, auc
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import BernoulliNB
+from sklearn.linear_model import SGDClassifier
 
 fvs_train = np.loadtxt("data/BOW.csv", delimiter=',')
 target_train = np.loadtxt("data/out_classes_1.txt")
@@ -16,7 +17,7 @@ transformer = TfidfTransformer()
 fvs_train = transformer.fit_transform(fvs_train)
 fvs_test = transformer.transform(fvs_test)
 
-classes = [('mn', MultinomialNB()), ('lr', LogisticRegression(multi_class = 'multinomial', solver = 'newton-cg')), ('bn', BernoulliNB(binarize=0.5)), ('lr2', LogisticRegression())]
+classes = [('mn', MultinomialNB()), ('bn', BernoulliNB(binarize=0.5)), ('lr', LogisticRegression()), ('sgd', SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5, random_state=42))]
 
 fpr = dict()
 tpr = dict()
@@ -31,17 +32,18 @@ for c in classes:
     print("mean:", np.mean(predicted == target_test))
     print(metrics.classification_report(target_test, predicted))
     print(fvs_test.shape)
-    p_score = clf.predict_proba(fvs_test)
-    # print(metrics.roc_curve(target_test,p_score[:,0]))
-    targets2d = np.array([1-target_test,target_test])
-    targets2d = np.transpose(targets2d)
+    if c[0] is not 'sgd':
+        p_score = clf.predict_proba(fvs_test)
+        # print(metrics.roc_curve(target_test,p_score[:,0]))
+        targets2d = np.array([1-target_test,target_test])
+        targets2d = np.transpose(targets2d)
 
-    # Compute ROC curve and ROC area for each class
+        # Compute ROC curve and ROC area for each class
 
-    # for i in range(2):
-    print(c[0])
-    fpr[c[0]], tpr[c[0]], _ = roc_curve(targets2d[:, 0], p_score[:, 0])
-    roc_auc[c[0]] = auc(fpr[c[0]], tpr[c[0]])
+        # for i in range(2):
+        print(c[0])
+        fpr[c[0]], tpr[c[0]], _ = roc_curve(targets2d[:, 0], p_score[:, 0])
+        roc_auc[c[0]] = auc(fpr[c[0]], tpr[c[0]])
 
     # Compute micro-average ROC curve and ROC area
     # fpr["micro"], tpr["micro"], _ = roc_curve(targets2d.ravel(), p_score.ravel())
@@ -52,26 +54,18 @@ print(fpr.keys())
 lw = 2
 cl = 'mn'
 plt.plot(fpr[cl], tpr[cl], color='darkorange',
-         lw=lw, label='MNB (area = %0.2f)' % roc_auc[cl])
-
-cl = 'lr'
-plt.plot(fpr[cl], tpr[cl], color='blue',
-         lw=lw, label='MLR (area = %0.2f)' % roc_auc[cl])
-plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-
+         lw=lw, label='Multinomial Naive Bayes (area = %0.2f)' % roc_auc[cl])
 
 cl = 'bn'
 plt.plot(fpr[cl], tpr[cl], color='red',
-         lw=lw, label='BNB (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='Bernoulli Naive Bayes (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 
 
-cl = 'lr2'
+cl = 'lr'
 plt.plot(fpr[cl], tpr[cl], color='black',
-         lw=lw, label='LR (area = %0.2f)' % roc_auc[cl])
+         lw=lw, label='Logistic Regression (area = %0.2f)' % roc_auc[cl])
 plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-
-
 
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
