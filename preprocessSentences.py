@@ -136,7 +136,7 @@ def main(argv):
     elif opt in ("-v", "--vocabfile"):
       vocabf = arg
 
-  traintxt = path+"/train.txt"
+  traintxt = path+"/test.txt"
   print 'Path:', path
   print 'Training data:', traintxt
 
@@ -151,7 +151,7 @@ def main(argv):
     outfile.write("\n".join(vocab))
     outfile.close()
   else:
-    word_count_threshold = 0
+    word_count_threshold = 5
     (docs, classes, samples) = tokenize_corpus(traintxt, train=False)
     vocabfile = open(path+"/"+vocabf, 'r')
     vocab = [line.rstrip('\n') for line in vocabfile]

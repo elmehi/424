@@ -1,3 +1,133 @@
+threshold = 1
+mn
+('mean:', 0.79333333333333333)
+             precision    recall  f1-score   support
+
+        0.0       0.79      0.81      0.80       300
+        1.0       0.80      0.78      0.79       300
+
+avg / total       0.79      0.79      0.79       600
+
+bn
+('mean:', 0.66166666666666663)
+             precision    recall  f1-score   support
+
+        0.0       0.62      0.86      0.72       300
+        1.0       0.77      0.46      0.58       300
+
+avg / total       0.69      0.66      0.65       600
+
+lr
+('mean:', 0.81000000000000005)
+             precision    recall  f1-score   support
+
+        0.0       0.78      0.87      0.82       300
+        1.0       0.85      0.75      0.80       300
+
+avg / total       0.81      0.81      0.81       600
+
+sgd
+('mean:', 0.81000000000000005)
+             precision    recall  f1-score   support
+
+        0.0       0.77      0.89      0.82       300
+        1.0       0.87      0.73      0.79       300
+
+avg / total       0.82      0.81      0.81       600
+
+
+treshold = 5
+mn
+('mean:', 0.77000000000000002)
+             precision    recall  f1-score   support
+
+        0.0       0.75      0.80      0.78       300
+        1.0       0.79      0.74      0.76       300
+
+avg / total       0.77      0.77      0.77       600
+
+
+bn
+('mean:', 0.66833333333333333)
+             precision    recall  f1-score   support
+
+        0.0       0.64      0.77      0.70       300
+        1.0       0.71      0.57      0.63       300
+
+avg / total       0.68      0.67      0.67       600
+
+(600, 541)
+
+lr
+('mean:', 0.79666666666666663)
+             precision    recall  f1-score   support
+
+        0.0       0.76      0.86      0.81       300
+        1.0       0.84      0.74      0.78       300
+
+avg / total       0.80      0.80      0.80       600
+
+sgd
+('mean:', 0.79166666666666663)
+             precision    recall  f1-score   support
+
+        0.0       0.75      0.88      0.81       300
+        1.0       0.85      0.71      0.77       300
+
+avg / total       0.80      0.79      0.79       600
+
+(600, 541)
+w. feature selection
+('mn', ':')
+('mean:', 0.81333333333333335)
+             precision    recall  f1-score   support
+
+        0.0       0.78      0.86      0.82       300
+        1.0       0.85      0.76      0.80       300
+
+avg / total       0.82      0.81      0.81       600
+
+(600, 1673)
+mn
+('bn', ':')
+('mean:', 0.73833333333333329)
+             precision    recall  f1-score   support
+
+        0.0       0.69      0.86      0.77       300
+        1.0       0.81      0.62      0.70       300
+
+avg / total       0.75      0.74      0.73       600
+
+(600, 1673)
+bn
+('lr', ':')
+('mean:', 0.82833333333333337)
+             precision    recall  f1-score   support
+
+        0.0       0.79      0.89      0.84       300
+        1.0       0.87      0.77      0.82       300
+
+avg / total       0.83      0.83      0.83       600
+
+(600, 1673)
+lr
+('sgd', ':')
+('mean:', 0.82999999999999996)
+             precision    recall  f1-score   support
+
+        0.0       0.79      0.90      0.84       300
+        1.0       0.88      0.76      0.82       300
+
+avg / total       0.84      0.83      0.83       600
+
+(600, 1673)
+['bn', 'mn', 'lr']
+
+
+-------
+F selection
+---------
+
 mn
 ('mean:', 0.81333333333333335)
              precision    recall  f1-score   support
@@ -35,3 +165,6 @@ avg / total       0.83      0.83      0.83       600
         1.0       0.88      0.76      0.82       300
 
 avg / total       0.84      0.83      0.83       600
+
+
+
