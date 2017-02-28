@@ -28,12 +28,12 @@
 	\maketitle
 	
 	\begin{abstract}
-		With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment is positive or negative.
+	This analysis uses various machine learning classification methods to determine whether sentences and sentence fragments are taken from positive or negative online reviews. The dataset consists of 2400 training points and 600 test points. We train on a bag-of-words representation of the text with and without feature selection. We find that
 	\end{abstract}
 	
 	\section{Introduction}
 	
-	With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment is positive or negative.
+	With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment regarding that topic is positive or negative.
 	
 	In this paper, we evaluate {\bf some methods} in their ability to classify the sentiments of online reviews as either positive or negative. We evaluate from the perspective of looking for negative reviews or looking for positive reviews. We evaluate the methods using a simple bag-of-words representation with and without feature selection. 
 	
@@ -48,12 +48,15 @@
 	
 	\section{Methods}
 	
-	We used the following classification methods
+	In our work, we used the following classification methods
 	
 	\begin{tabular}{rl}
-		a) & Multinomial Na\"ive Bayes\\
+		a) & Multinomial Na\"ive Bayes (MNB)\\
+		b) & Multinomial Logistic Regression (MLR)\\
+		c) & Bernoulli No\"ive Bayes (BNB) \\
+		d) & OVR Logistic Regression (LR)
 	\end{tabular}
-	
+
 	All methods we used were implemented using the SciKit Learn Python libraries \cite{scikit-learn}. 
 	
 	\subsection{Generative vs. Discriminative}
