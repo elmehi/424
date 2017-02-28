@@ -28,14 +28,14 @@
 	\maketitle
 	
 	\begin{abstract}
-	This analysis uses various machine learning classification methods to determine whether sentences and sentence fragments are taken from positive or negative online reviews. The dataset consists of 2400 training points and 600 test points. We train on a bag-of-words representation of the text with and without feature selection. We find that
+	This analysis uses various machine learning classification methods to determine whether sentences and sentence fragments are taken from positive or negative online reviews. The dataset consists of 2400 training points and 600 test points. We train on a bag-of-words representation of the text with and without feature selection. We find that logistic regression and support vector machines have the best performance. 
 	\end{abstract}
 	
 	\section{Introduction}
 	
 	With the proliferation of short text snippets on the Internet, especially in social networks, there is a growing need to be able to classify these texts with very little context. This can be as simple as classifying snippets as positive or negative. One place where this would be helpful is in online reviews, so that sellers can gauge the reaction through a metric separate from number-of-stars reviews. On social media, one might want to look at all mentions of a person or hashtag and see whether general sentiment regarding that topic is positive or negative.
 	
-	In this paper, we evaluate {\bf some methods} in their ability to classify the sentiments of online reviews as either positive or negative. We evaluate from the perspective of looking for negative reviews or looking for positive reviews. We evaluate the methods using a simple bag-of-words representation with and without feature selection. 
+	In this paper, we evaluate multinomial na\"ive Bayes, Bernoulli na\"ive Bayes, and logistic regression in their ability to classify the sentiments of online reviews as either positive or negative. We evaluate from the perspective of looking for negative reviews or looking for positive reviews. The methods are trained us using a simple bag-of-words representation with and without feature selection. 
 	
 	Such a sentiment classifier could conceivably be useful to producers and consumers. Producers would want to find the negative reviews in order to know what they most need to improve in their products. Consumers could use it to find the products with the most positive reviews.
 	
@@ -53,12 +53,22 @@
 	\begin{tabular}{rl}
 		a) & Multinomial Na\"ive Bayes (MNB)\\
 		b) & Multinomial Logistic Regression (MLR)\\
-		c) & Bernoulli No\"ive Bayes (BNB) \\
-		d) & OVR Logistic Regression (LR)
+		c) & Bernoulli Na\"ive Bayes (BNB) \\
+		d) & Support Vector Machine (SVM)
 	\end{tabular}
 
 	All methods we used were implemented using the SciKit Learn Python libraries \cite{scikit-learn}. 
 	
+	The two na\"ive Bayes methods both assume class-conditional independence between the features in the representation of the data. The predicted label is then just that which maximizes the likelihood, using Bayes' rule. For a more in-depth description of MNB see subsection \ref{subs:mnb}
+	
+	Logistic regression is a linear classification method that uses the loss function
+	\begin{align}
+	\min_{w,c}\frac{1}{2}w^Tw + C\sum_{i = 1}^{m}\log\left(\exp\left(-z_i\left(x_i^Tw+c\right)\right)+1\right),
+	\end{align}
+	where $z$ is the class label, {\bf x} is the feature vector, and $w,c$ are parameters.
+	
+	Support vector machines find the maximum-margin linear separation of the data by class in feature space, then use the data points that define that margin (support vectors) to predict on new data. We used the scikit-learn method referred to as SGDClassifier, which stands for Stochastic Gradient Descent.
+		
 	\subsection{Generative vs. Discriminative}
 	
 	The classifiers we used can be split into two main groups: generative and discriminative classifiers. Generative classifiers are ones that assume a model for the observed features based on the class and then fit the parameters of that model to the training data. This is equivalent to the independence assumption
@@ -83,14 +93,14 @@
 	\end{equation}
 	where the denominator is equivalent to the total number of occurrences of the term in the whole document. Thresholds for both total document frequency and CPD score were set using 5-fold cross-validation.
 	
-	\subsection{Spotlight on Multinomial Na\"ive Bayes}
+	\subsection{Spotlight on Multinomial Na\"ive Bayes} \label{subs:mnb}
 	
 	The na\"ive Bayes algorithm rests on the assumption of class-conditional independence. The graphical model corresponding to this assumption with $n$ samples and $K$ parameters can be seen in figure \ref{fig:dag}. This figure is taken from a slide in Barbara Engelhardt's lecture on classification \cite{engelhardt17}.
 	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[scale=1]{DAG}
-		\caption{The graphical model corresponding to the assumptions of Na\"ive Bayes. The top circle represents the proportion of positive sentiments. $K$ is the number of classes, each with its own parameters, while $n$ is the number of samples. In our case, $\bf x$ is a vector of $m$ features.}
+		\caption{{\bf The graphical model corresponding to the assumptions of Na\"ive Bayes.} The top circle represents the proportion of positive sentiments. $K$ is the number of classes, each with its own parameters, while $n$ is the number of samples. In our case, $\bf x$ is a vector of $m$ features.}
 		\label{fig:dag}
 	\end{figure}
 	
@@ -119,7 +129,7 @@
 	
 	\section{Results}
 	
-	For all methods, hyperparameters were fit using 5-fold cross validation. With optimal hyperparameters, the models were then trained on the 2400 training data and tested on the 600 testing data. The results can be seen in table~\ref{tab:results}.
+	For all methods, hyperparameters were fit using 5-fold cross validation and the training data. With optimal hyperparameters, the models were then trained on the 2400 training data and tested on the 600 testing data. The results can be seen in table~\ref{tab:results}.
 	
 	\subsection{Evaluation Metrics}
 	
@@ -146,23 +156,33 @@
 	\end{equation}
 	
 	\begin{table}[h]
-		\centering
-		\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|@{}}
-			\hline
-			\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c|}{Looking for Negatives} \\
-			\cline{3-8}
-			Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-			\hline
-			\hline
-			MNB & BoW  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-			MNB & Select & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
-			\hline
-		\end{tabular}
-		\caption{{\bf Results from 3 classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment. Lastly, we state runtimes for each classifier.}
-		\label{tab:results}
+	\centering
+	\begin{tabular}[]{@{}|c|c|c|c|c|c|c|c|@{}}
+		\hline
+		\multicolumn{2}{|c|}{} & \multicolumn{3}{c}{Looking for Positives} & \multicolumn{3}{c|}{Looking for Negatives} \\
+		\cline{3-8}
+		Classifier& Features& Precision& Recall& $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		\hline
+		\hline
+		MNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		MNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		MNB & Selected & 0.85 & 0.76 & 0.80& 0.78& 0.86 & 0.82 \\
+		BNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		BNB & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		BNB & Selected & 0.81 & 0.62 & 0.70& 0.69& 0.86 & 0.77 \\
+		MLR & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		MLR & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		MLR & Selected & 0.87 & 0.77 & 0.82& 0.79& 0.89 & 0.84 \\
+		SVM & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		SVM & Th = 1  & pre & rec & $F_1$& TN/(TN+FN)& Specificity & $F_1'$ \\
+		SVM & Selected & 0.88 & 0.76 & 0.82& 0.79& 0.90 & 0.84 \\
+		\hline
+	\end{tabular}
+	\caption{{\bf Results from 3 classifiers on sentiment analysis data.} We list values for however many classifiers, each with and without using feature selection. We also divide results into those useful when looking for positive and negative sentiment.}
+	\label{tab:results}
 	\end{table}
 
-	The reported values are those of the classifier with the hyperparameters set to maximize accuracy on the training data set. That means the reported value of recall for MNB, for example, is not the highest achievable precision. In fact, recall $=1$ is achievable by marking all test cases as positive. A receiver operating characteristic (ROC) curve captures the tradeoff between true positives (recall) and true negatives. It varies the threshold for predicting a positive sentiment and then plots both TPR and TNR. An ROC for a perfect classifier would be a step function. For an example ROC curve see figure~\ref{fig:roc}.
+	The reported values are those of the classifier with the hyperparameters set to maximize accuracy on the training data set. That means the reported value of recall for MNB, for example, is not the highest achievable recal. In fact, recall $=1$ is achievable by marking all test cases as positive. A receiver operating characteristic (ROC) curve captures the tradeoff between true positives (recall) and true negatives. It varies the threshold for predicting a positive sentiment and then plots both TPR and TNR. An ROC for a perfect classifier would be a step function. For an example ROC curve see figure~\ref{fig:roc}.
 	\begin{figure}[h]
 		\centering
 		\includegraphics[scale=.5]{ROC}
@@ -174,13 +194,15 @@
 	
 	When using feature selection, the best method was to set a low threshold for document frequency, i.e. how many times a word must appear in the whole document before it is included in the dictionary. This makes sense because we were using term frequency-inverse document frequency (tf-idf), which weights words based on their document frequency. 
 	
-	A useful method of feature selection was the categorical proportional difference score, defined as the absolute difference in occurrences of a word in positive vs. negative reviews, divided by the document frequency. 
+	A useful method of feature selection was the categorical proportional difference score, defined as the absolute difference in occurrences of a word in positive vs. negative reviews, divided by the document frequency. Setting a high threshold for this score
 	
 	high threshold for 
 	
 	roc shows that logistic regression overfits less
 	
 	\subsubsection*{Acknowledgments}
+	
+	We would like to acknowledge Meir Friedenberg for suggestions of methods to try.
 	
 	
 	\bibliography{ref}
